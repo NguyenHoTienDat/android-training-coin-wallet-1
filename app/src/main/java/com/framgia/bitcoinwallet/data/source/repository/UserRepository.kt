@@ -61,12 +61,16 @@ class UserRepository(private val userRemoteDatasource: UserRemoteDatasource,
                 , senderStringRef, currentBalance)
     }
 
-    override fun getUserWallets(idUser: String): Observable<ArrayList<Wallet>> {
+    override fun getUserWallets(idUser: String): Single<MutableList<Wallet>> {
         return userRemoteDatasource.getUserWallets(idUser)
     }
 
     override fun addWallet(idUser: String, walletName: String): Observable<Wallet> {
         return userRemoteDatasource.addWallet(idUser, walletName)
+    }
+
+    override fun getWalletInfor(idUser: String, idWallet: String): Observable<Wallet> {
+        return userRemoteDatasource.getWalletInfor(idUser, idWallet)
     }
 
     override fun updateUserTransaction(stringRef: String) {

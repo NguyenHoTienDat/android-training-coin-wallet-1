@@ -62,4 +62,5 @@
     <string name="wallet_name_exist_title">Wallet name is existed!</string>
     <string name="enter_wallet_name_title">Enter Your New Wallet Name</string>
     <string name="login_failed_title">Email or password incorrect!</string>
+    <string name="action_change_wallet">Change wallet</string>
 </resources>

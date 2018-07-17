@@ -6,6 +6,7 @@ import com.framgia.bitcoinwallet.data.model.Wallet
 class ItemWalletViewModel(item: Wallet) {
 
     val wallet: MutableLiveData<Wallet> = MutableLiveData()
+    val isShowCheckUi: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         wallet.value = item

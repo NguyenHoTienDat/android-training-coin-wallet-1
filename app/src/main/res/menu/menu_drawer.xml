@@ -35,10 +35,6 @@
                     android:icon="@drawable/ic_bitcoin_wallet"
                     android:title="@string/title_bitcoin_wallet" />
 
-                <item
-                    android:id="@+id/action_add_wallet"
-                    android:icon="@drawable/ic_add_wallet"
-                    android:title="@string/title_add_wallet" />
             </group>
         </menu>
     </item>

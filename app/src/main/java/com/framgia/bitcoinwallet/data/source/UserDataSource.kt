@@ -17,8 +17,9 @@ interface UserDataSource {
     fun updateUserTransaction(stringRef: String)
     fun checkCoinAddressExist(addressCoin: String): Single<Receiver>
     fun getInforTransactionUser(idUser: String): Single<Transaction>
-    fun getUserWallets(idUser: String): Observable<ArrayList<Wallet>>
+    fun getUserWallets(idUser: String): Single<MutableList<Wallet>>
     fun addWallet(idUser: String, walletName: String): Observable<Wallet>
+    fun getWalletInfor(idUser: String, idWallet: String): Observable<Wallet>
     interface local {
         fun saveUser(user: User)
         fun updateUser(user: User)

@@ -6,25 +6,35 @@ import android.util.Log
 import com.framgia.bitcoinwallet.R
 import com.framgia.bitcoinwallet.data.model.Wallet
 import com.framgia.bitcoinwallet.data.source.repository.UserRepository
+import com.framgia.bitcoinwallet.util.SharedPreUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import java.lang.reflect.Array.set
 import java.util.ArrayList
 
 class WalletViewModel(private val context: Application,
                       private val userRepository: UserRepository)
     : AndroidViewModel(context), LifecycleObserver {
 
-    val curentBalance: MutableLiveData<String> = MutableLiveData()
+    val currentWallet: MutableLiveData<Wallet> = MutableLiveData()
     val notifyMessage: MutableLiveData<String> = MutableLiveData()
-    val wallets: MutableLiveData<ArrayList<Wallet>> = MutableLiveData()
+    val wallets: MutableLiveData<MutableList<Wallet>> = MutableLiveData()
     val newWalletAdded: MutableLiveData<Wallet> = MutableLiveData()
+    val isChangeWalletClick: MutableLiveData<Boolean> = MutableLiveData()
+
+    var walletsTmp = mutableListOf<Wallet>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun startViewModel() {
-        getCurrentBalance(getCurrentUserId(), getCurrentWalletAddress())
         getWalletsOfCurrentUser(getCurrentUserId())
+        getCurrentWalletInfor(getCurrentUserId(), getCurrentWalletAddress())
     }
 
     fun changeCurrentWallet() {
+        if (isChangeWalletClick.value == true) { //case item click to change wallet
 
+        } else { //case item click to show details wallet screen
+
+        }
     }
 
     fun addWallet(name: String) {
@@ -48,10 +58,26 @@ class WalletViewModel(private val context: Application,
         }
     }
 
+    fun changeWallet(currentChoosed: Int) {
+        val walletTmp = currentWallet.value
+ /*       currentWallet.value = walletsTmp[currentChoosed]
+        SharedPreUtils.saveWalletAddress(context, currentWallet.value!!.id)*/
+        Log.e("xxx", "be1 size: "+ walletsTmp.size )
+        with(walletsTmp) {
+            removeAt(currentChoosed)
+            walletTmp?.let { add(it) }
+        }
+        Log.e("xxx", "be2 size: "+ walletsTmp.size )
+        wallets.value = walletsTmp
+    }
+
     private fun getWalletsOfCurrentUser(userId: String) {
-        userRepository.getUserWallets(userId).subscribe(
+        userRepository.getUserWallets(userId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
                 {
-                    wallets.value = filterWallet(it)
+                    filterWallet(it)?.let { it1 -> walletsTmp.addAll(it1) }
+                    wallets.value = walletsTmp
                 },
                 {
 
@@ -62,7 +88,7 @@ class WalletViewModel(private val context: Application,
     /**
      * Filter current wallet out of list other wallet
      */
-    private fun filterWallet(wallets: ArrayList<Wallet>?) = wallets?.apply {
+    private fun filterWallet(wallets: MutableList<Wallet>?) = wallets?.apply {
         remove(wallets.find {
             it.id == getCurrentWalletAddress()
         })
@@ -71,15 +97,15 @@ class WalletViewModel(private val context: Application,
     /**
      * Get current balance base on user id and wallet id
      */
-    private fun getCurrentBalance(idUser: String, idWallet: String) {
+    private fun getCurrentWalletInfor(idUser: String, idWallet: String) {
         // fix login state is true, need to be check loginState
         // and get current User id, current wallet id later
         if (true) {
             userRepository
-                    .getCurrentBalance(idUser, idWallet)
+                    .getWalletInfor(idUser, idWallet)
                     .subscribe(
                             {
-                                curentBalance.value = it.toString()
+                                currentWallet.value = it
                             },
                             {
                                 notifyMessage.value = context
@@ -90,20 +116,9 @@ class WalletViewModel(private val context: Application,
         }
     }
 
-    private fun getCurrentUserId(): String {
-        //fake data, need to be get from SharedPref
-        return "1"
-    }
+    private fun getCurrentUserId() = SharedPreUtils.getUserId(context)
 
-    private fun getCurrentWalletAddress(): String {
-        //fake data, need to be get from SharedPref
-        return "erys346sdjh25346xzdh"
-    }
-
-    fun getWalletName(): String {
-        //fake data, need to be get from SharedPref
-        return "Dat's wallet"
-    }
+    private fun getCurrentWalletAddress() = SharedPreUtils.getCurrentWalletAddress(context)
 
     companion object {
         const val TAG = "WalletViewModel"

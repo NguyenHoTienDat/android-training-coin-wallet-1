@@ -159,15 +159,9 @@ class SendCoinViewModel(private val context: Application,
         }
     }
 
-    private fun getCurrentUserId(): String {
-        //fake data, need to be get from SharedPref
-        return "1"
-    }
+    private fun getCurrentUserId() =  SharedPreUtils.getUserId(context)
 
-    private fun getCurrentWalletAddress(): String {
-        //fake data, need to be get from SharedPref
-        return "erys346sdjh25346xzdh"
-    }
+    private fun getCurrentWalletAddress() = SharedPreUtils.getCurrentWalletAddress(context)
 
     private fun getReceiverUserId() = receiverInfor.userReceiverId
 

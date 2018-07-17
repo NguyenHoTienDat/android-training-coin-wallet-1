@@ -17,6 +17,16 @@
         android:paddingBottom="@dimen/dp_5"
         android:paddingTop="@dimen/dp_5">
 
+        <CheckBox
+            android:id="@+id/checkbox_item_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{ viewModel.wallet.isChoosed }"
+            android:visibility="@{viewModel.isShowCheckUi() ?View.VISIBLE :View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/image_item_wallet"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_item_wallet" />
+
         <ImageView
             android:id="@+id/image_item_wallet"
             android:layout_width="wrap_content"
@@ -24,7 +34,7 @@
             android:background="@drawable/shape_personal_wallet_yellow"
             android:padding="@dimen/dp_4"
             android:src="@drawable/ic_bitcoin_wallet_while"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/checkbox_item_wallet"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

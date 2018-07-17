@@ -37,6 +37,7 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun startMainScreen() {
         startActivity(MainActivity.getMainIntent(this))
+        finish()
     }
 
     /**
@@ -44,6 +45,7 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun startLoginScreen() {
         startActivity(LoginActivity.getLoginIntent(this))
+        finish()
     }
 
     companion object {

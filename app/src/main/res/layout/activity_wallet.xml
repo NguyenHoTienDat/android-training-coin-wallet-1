@@ -107,7 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{ viewModel.getWalletName() }"
+                android:text="@{ viewModel.currentWallet.name }"
                 app:layout_constraintBottom_toTopOf="@+id/text_current_balance"
                 app:layout_constraintLeft_toRightOf="@+id/image_cur_wallet"
                 app:layout_constraintRight_toLeftOf="@+id/image_cur_wallet_show" />
@@ -117,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{ viewModel.curentBalance }"
+                android:text='@{ ""+ viewModel.currentWallet.coin }'
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintBottom_toBottomOf="@+id/image_cur_wallet"
@@ -127,13 +127,15 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_20"
             android:background="@drawable/shape_white_radius_container"
             android:elevation="@dimen/dp_5"
             android:padding="@dimen/dp_10"
+            app:layout_constraintBottom_toTopOf="@+id/button_change_wallet"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constrain_current_container">
@@ -169,12 +171,39 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_wallet"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/dp_8"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/view_div_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@+id/view_div_1" />
         </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/button_change_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@color/color_deep_purple_50_500"
+            android:text="@string/action_change_wallet"
+            android:textColor="@android:color/white"
+            android:visibility="@{viewModel.isChangeWalletClick() ?View.GONE :View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/button_ok" />
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@color/color_deep_purple_50_500"
+            android:text="@string/ok_title"
+            android:textColor="@android:color/white"
+            android:visibility="@{viewModel.isChangeWalletClick() ?View.VISIBLE :View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>
