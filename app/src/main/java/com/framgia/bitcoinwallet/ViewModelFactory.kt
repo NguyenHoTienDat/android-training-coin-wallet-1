@@ -7,6 +7,7 @@ import com.framgia.bitcoinwallet.data.source.local.UserLocalDatasource
 import com.framgia.bitcoinwallet.data.source.remote.UserRemoteDatasource
 import com.framgia.bitcoinwallet.data.source.repository.BitCoinRepository
 import com.framgia.bitcoinwallet.data.source.repository.UserRepository
+import com.framgia.bitcoinwallet.ui.screen.detailswallet.DetailsWalletViewModel
 import com.framgia.bitcoinwallet.ui.screen.forgotpasswd.ForgotPassWdViewModel
 import com.framgia.bitcoinwallet.ui.screen.login.LoginViewModel
 import com.framgia.bitcoinwallet.ui.screen.main.MainViewModel
@@ -42,6 +43,9 @@ class ViewModelFactory private constructor(
 
                     isAssignableFrom(WalletViewModel::class.java) ->
                         WalletViewModel(application, userRepository)
+
+                    isAssignableFrom(DetailsWalletViewModel::class.java) ->
+                        DetailsWalletViewModel(application, userRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

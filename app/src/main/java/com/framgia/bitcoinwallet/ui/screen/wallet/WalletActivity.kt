@@ -14,6 +14,7 @@ import com.framgia.bitcoinwallet.data.model.Wallet
 import com.framgia.bitcoinwallet.databinding.ActivityWalletBinding
 import com.framgia.bitcoinwallet.ui.BaseActivity
 import com.framgia.bitcoinwallet.ui.BaseRecyclerViewHolder
+import com.framgia.bitcoinwallet.ui.screen.detailswallet.DetailsWalletActivity
 import com.framgia.bitcoinwallet.util.obtainViewModel
 import com.framgia.bitcoinwallet.util.setUpActionBar
 import kotlinx.android.synthetic.main.activity_wallet.*
@@ -27,8 +28,7 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), BaseRecyclerViewHo
 
     companion object {
         const val TAG = "WalletActivity"
-        fun getWalletActivityIntent(context: Context): Intent
-                = Intent(context, WalletActivity::class.java)
+        fun getWalletActivityIntent(context: Context): Intent = Intent(context, WalletActivity::class.java)
     }
 
     override fun navigateLayout(): Boolean {
@@ -57,10 +57,10 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), BaseRecyclerViewHo
         binding.viewModel?.wallets?.observe(this, Observer {
             it?.let {
                 if (walletAdapter == null) {
-                    walletAdapter = WalletAdapter( it, this)
+                    walletAdapter = WalletAdapter(it, this)
                     recycler_wallet.adapter = walletAdapter
                 } else {
-                    Log.e("xxx", "af size: "+ it.size )
+                    Log.e("xxx", "af size: " + it.size)
                     walletAdapter?.updateData(it)
                 }
             }
@@ -83,14 +83,14 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), BaseRecyclerViewHo
             walletAdapter?.notifyPreviousItemCheck(currentWalletChoosed)
             currentWalletChoosed = position
         } else { //case open details screen
-
+            startActivity(DetailsWalletActivity.getDetailsWallet(this, data))
         }
     }
 
     private fun initViewModel() {
         binding.viewModel = this@WalletActivity.obtainViewModel(WalletViewModel::class.java).apply {
-                lifecycle.addObserver(this)
-            }
+            lifecycle.addObserver(this)
+        }
     }
 
     private fun setUpToolbar() {

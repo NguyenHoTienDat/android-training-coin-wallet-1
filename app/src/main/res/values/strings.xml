@@ -63,4 +63,5 @@
     <string name="enter_wallet_name_title">Enter Your New Wallet Name</string>
     <string name="login_failed_title">Email or password incorrect!</string>
     <string name="action_change_wallet">Change wallet</string>
+    <string name="action_share_wallet">Share wallet</string>
 </resources>
