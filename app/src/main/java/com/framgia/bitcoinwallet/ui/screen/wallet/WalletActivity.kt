@@ -45,6 +45,7 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), BaseRecyclerViewHo
     }
 
     override fun setEvents() {
+        toolbar_wallet.setNavigationOnClickListener { finish() }
         image_change_cur_wallet.setOnClickListener { binding.viewModel?.changeCurrentWallet() }
         image_add_wallet.setOnClickListener { showEditDialog() }
         image_change_cur_wallet.setOnClickListener { showRadioButtonChoose() }

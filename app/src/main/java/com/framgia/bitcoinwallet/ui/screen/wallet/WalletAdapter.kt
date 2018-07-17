@@ -1,5 +1,6 @@
 package com.framgia.bitcoinwallet.ui.screen.wallet
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.framgia.bitcoinwallet.data.model.Wallet
@@ -17,6 +18,27 @@ class WalletAdapter(var wallets: MutableList<Wallet>,
     override fun getViewHolder(parent: ViewGroup, viewType: Int): WalletHolder {
         return WalletHolder(ItemWalletBinding.inflate(LayoutInflater.from(parent.context)
                 , parent, false))
+    }
+
+    fun notifyPreviousItemCheck(currentPosistion: Int) {
+        if (previousChoosed != -1) {
+            notifyItemChanged(previousChoosed)
+        }
+        previousChoosed = currentPosistion
+    }
+
+    fun showCheckBoxChoose(isShow: Boolean) {
+        isShowCheckUi = isShow
+        notifyDataSetChanged()
+    }
+
+    fun updateData(newWallets: MutableList<Wallet>) {
+        Log.e("xxx","before: "+newWallets.size)
+        wallets.clear()
+        wallets.addAll(newWallets)
+        Log.e("xxx","after: "+newWallets.size)
+        isShowCheckUi = false
+        notifyDataSetChanged()
     }
 
     inner class WalletHolder(binding: ItemWalletBinding)
@@ -38,26 +60,5 @@ class WalletAdapter(var wallets: MutableList<Wallet>,
             }
 
         }
-    }
-
-    fun notifyPreviousItemCheck(currentPosistion: Int) {
-        if (previousChoosed != -1) {
-            notifyItemChanged(previousChoosed)
-        }
-        previousChoosed = currentPosistion
-    }
-
-    fun showCheckBoxChoose(isShow: Boolean) {
-        isShowCheckUi = isShow
-        notifyDataSetChanged()
-    }
-
-    fun updateData(newWallets: MutableList<Wallet>) {
-        wallets.apply {
-            clear()
-            addAll(newWallets)
-        }
-        isShowCheckUi = false
-        notifyDataSetChanged()
     }
 }

@@ -60,14 +60,14 @@ class WalletViewModel(private val context: Application,
 
     fun changeWallet(currentChoosed: Int) {
         val walletTmp = currentWallet.value
- /*       currentWallet.value = walletsTmp[currentChoosed]
-        SharedPreUtils.saveWalletAddress(context, currentWallet.value!!.id)*/
-        Log.e("xxx", "be1 size: "+ walletsTmp.size )
+        currentWallet.value = walletsTmp[currentChoosed]
+        SharedPreUtils.saveWalletAddress(context, currentWallet.value!!.id)
+
         with(walletsTmp) {
             removeAt(currentChoosed)
             walletTmp?.let { add(it) }
         }
-        Log.e("xxx", "be2 size: "+ walletsTmp.size )
+
         wallets.value = walletsTmp
     }
 
