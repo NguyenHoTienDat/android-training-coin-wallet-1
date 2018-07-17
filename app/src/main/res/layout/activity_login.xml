@@ -7,9 +7,6 @@
         <variable
             name="viewModel"
             type="com.framgia.bitcoinwallet.ui.screen.login.LoginViewModel" />
-        <variable
-            name="listener"
-            type="com.framgia.bitcoinwallet.ui.screen.login.LoginActionListener" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -67,14 +64,12 @@
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginTop="@dimen/dp_80"
             android:inputType="textEmailAddress"
-            android:text="@{viewModel.email}"
             app:layout_constraintTop_toBottomOf="@id/tv_intro"
             app:setImage="@drawable/ic_account"
             app:textHint="@string/text_hint_email" />
 
         <com.framgia.bitcoinwallet.util.ui.EditTextCustom
             android:id="@+id/edt_password"
-            android:text="@{viewModel.password}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_25"
@@ -94,7 +89,6 @@
             android:layout_marginRight="@dimen/dp_25"
             android:layout_marginTop="@dimen/dp_20"
             android:background="@drawable/bg_custom_edit_text"
-            android:onClick="@{(view)-> listener.onClickLogin(view)}"
             android:text="@string/title_sign_in"
             android:textColor="@android:color/white"
             app:layout_constraintTop_toBottomOf="@id/edt_password" />

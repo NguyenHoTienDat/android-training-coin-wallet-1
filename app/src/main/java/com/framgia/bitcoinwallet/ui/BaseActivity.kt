@@ -24,6 +24,7 @@ abstract class BaseActivity<ViewBinding : ViewDataBinding> : AppCompatActivity()
         binding = DataBindingUtil.setContentView(this, getLayoutRes())
         binding.setLifecycleOwner(this@BaseActivity)
         initComponents()
+        observeViewModel()
         setEvents()
     }
 
