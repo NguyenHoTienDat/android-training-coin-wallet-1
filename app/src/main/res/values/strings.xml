@@ -83,4 +83,7 @@
     <string name="change_passwd_successed">Change password successed</string>
     <string name="change_passwd_failed">Change password failed</string>
     <string name="invalid_email_passwd">Email or password incorrect</string>
+    <string name="activity_title">Activity</string>
+    <string name="received_title">Received</string>
+    <string name="sended_title">Sended</string>
 </resources>

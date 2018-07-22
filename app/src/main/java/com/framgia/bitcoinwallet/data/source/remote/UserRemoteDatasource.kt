@@ -1,5 +1,6 @@
 package com.framgia.bitcoinwallet.data.source.remote
 
+import android.util.Log
 import com.framgia.bitcoinwallet.R
 import com.framgia.bitcoinwallet.data.model.*
 import com.framgia.bitcoinwallet.data.model.Transaction
@@ -405,6 +406,70 @@ class UserRemoteDatasource : UserDataSource {
                             emitter.onSuccess(false)
                         }
                     }
+        }
+    }
+
+    override fun getSendTransaction(idUser: String, idWallet: String): Observable<List<SendCoin>> {
+        return Observable.create<List<SendCoin>> { emitter ->
+            var transactionRef = mFireDatabase.getReference(
+                    "${Constant.FIREBASE_USER_REF_KEY}/$idUser" +
+                            "/${Constant.FIREBASE_WALLET_REF_KEY}/$idWallet" +
+                            "/${Constant.FIREBASE_TRANSACTION_REF_KEY}")
+            transactionRef.child(Constant.FIREBASE_SEND_REF_KEY)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(error.toException())
+                        }
+
+                        override fun onDataChange(sendSnap: DataSnapshot) {
+                            when (sendSnap.hasChildren()) {
+                                true -> {
+                                    var sendCoins = mutableListOf<SendCoin>()
+                                    for (sendItem: DataSnapshot in sendSnap.children) {
+                                        sendItem.getValue(SendCoin::class.java)?.let {
+                                            sendCoins.add(it)
+                                        }
+                                    }
+                                    emitter.onNext(sendCoins)
+                                }
+                                else -> {
+                                    emitter.onNext(mutableListOf())
+                                }
+                            }
+                        }
+                    })
+        }
+    }
+
+    override fun getReceiveTransaction(idUser: String, idWallet: String): Observable<List<ReceiveCoin>> {
+        return Observable.create<List<ReceiveCoin>> { emitter ->
+            var transactionRef = mFireDatabase.getReference(
+                    "${Constant.FIREBASE_USER_REF_KEY}/$idUser" +
+                            "/${Constant.FIREBASE_WALLET_REF_KEY}/$idWallet" +
+                            "/${Constant.FIREBASE_TRANSACTION_REF_KEY}")
+            transactionRef.child(Constant.FIREBASE_RECEIVE_REF_KEY)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(error.toException())
+                        }
+
+                        override fun onDataChange(receiveSnap: DataSnapshot) {
+                            when (receiveSnap.hasChildren()) {
+                                true -> {
+                                    var receiveCoins = mutableListOf<ReceiveCoin>()
+                                    for (receiveItem: DataSnapshot in receiveSnap.children) {
+                                        receiveItem.getValue(ReceiveCoin::class.java)?.let {
+                                            receiveCoins.add(it)
+                                        }
+                                    }
+                                    emitter.onNext(receiveCoins)
+                                }
+                                else -> {
+                                    emitter.onNext( mutableListOf())
+                                }
+                            }
+                        }
+                    })
         }
     }
 }

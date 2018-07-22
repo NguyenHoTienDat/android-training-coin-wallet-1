@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_8"
-            android:elevation="@dimen/dp_30"
+            android:text="@{ viewModel.curentBalance }"
             android:textColor="@color/color_deep_purple_50_700"
             android:textSize="@dimen/sp_35"
             android:textStyle="bold"
@@ -89,11 +89,95 @@
             android:layout_height="350dp"
             android:layout_margin="@dimen/dp_8"
             android:background="@drawable/shape_bg_send_coin"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
             android:paddingTop="@dimen/dp_20"
             android:visibility="@{viewModel.isLoadingData() ?View.GONE :View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent">
 
+            <TextView
+                android:id="@+id/text_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/sp_18" />
 
+            <TextView
+                android:id="@+id/text_received_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/received_title"
+                app:layout_constraintBottom_toBottomOf="@+id/text_activity"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <View
+                android:id="@+id/view_under_received_title"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintLeft_toLeftOf="@+id/text_received_title"
+                app:layout_constraintRight_toRightOf="@+id/text_received_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_received_title" />
+
+            <TextView
+                android:id="@+id/text_sended_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_15"
+                android:text="@string/sended_title"
+                android:textColor="@color/color_deep_purple_50_700"
+                app:layout_constraintBottom_toBottomOf="@+id/text_activity"
+                app:layout_constraintRight_toLeftOf="@+id/text_received_title" />.
+
+            <View
+                android:id="@+id/view_under_sened_title"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@color/color_deep_purple_50_700"
+                app:layout_constraintLeft_toLeftOf="@+id/text_sended_title"
+                app:layout_constraintRight_toRightOf="@+id/text_sended_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_sended_title" />
+
+            <View
+                android:id="@+id/view_div"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_15"
+                android:background="@color/color_gray_50_400"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_activity" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_send_transaction"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:visibility="@{ viewModel.isSendTransactionShowed() ?View.VISIBLE :View.GONE}"
+                app:itemDivider="@{ true }"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_div"
+                app:sendTransactionItems="@{ viewModel.sendTransaction }" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_receive_transaction"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:visibility="@{ viewModel.isSendTransactionShowed() ?View.GONE :View.VISIBLE}"
+                app:itemDivider="@{ true }"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_div"
+                app:receiveTransactionItems="@{ viewModel.receiveTransaction }" />
         </android.support.constraint.ConstraintLayout>
 
         <ProgressBar

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.framgia.bitcoinwallet.ui.screen.main.transactiontab.SendTransactionViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_send_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:src="@drawable/ic_send_purple"
+            app:layout_constraintBottom_toBottomOf="@+id/text_send_transaction_timestamp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_transaction_send_btc" />
+
+        <TextView
+            android:id="@+id/text_transaction_send_btc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="BTC"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_transaction_send_coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginRight="@dimen/dp_4"
+            android:text='@{ "" +viewModel.sendTransaction.amount}'
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintRight_toLeftOf="@+id/text_transaction_send_btc"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="nguyen ho tien dattttttttttttttttttttttttgfiytfttf"
+            android:textSize="@dimen/sp_16"
+            android:maxLines="1"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_8"
+            app:layout_constraintBottom_toBottomOf="@+id/image_send_transaction"
+            app:layout_constraintLeft_toRightOf="@+id/image_send_transaction"
+            app:layout_constraintTop_toTopOf="@+id/image_send_transaction"
+            app:layout_constraintRight_toLeftOf="@+id/text_transaction_send_coin" />
+
+        <TextView
+            android:id="@+id/text_send_transaction_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:text="@{ viewModel.getConvertTimeStamp() }"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_transaction_send_coin" />
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

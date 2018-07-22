@@ -12,8 +12,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.framgia.bitcoinwallet.R
 import com.framgia.bitcoinwallet.data.model.BitCoin
+import com.framgia.bitcoinwallet.data.model.ReceiveCoin
+import com.framgia.bitcoinwallet.data.model.SendCoin
 import com.framgia.bitcoinwallet.data.model.Wallet
 import com.framgia.bitcoinwallet.ui.screen.coinprice.CoinAdapter
+import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.ReceiveTransactionAdapter
+import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.SendTransactionAdapter
 import com.framgia.bitcoinwallet.ui.screen.wallet.WalletAdapter
 
 /**
@@ -56,6 +60,24 @@ fun setItemDivider(view: RecyclerView, state: Boolean) {
     when (state) {
         true -> {
             view.addItemDecoration(DividerItemDecoration(view.context, LinearLayoutManager.VERTICAL))
+        }
+    }
+}
+
+@BindingAdapter("sendTransactionItems")
+fun setSendTransactionItems(view: RecyclerView, item: MutableList<SendCoin>?) {
+    when (view.adapter) {
+        is SendTransactionAdapter -> item?.let {
+            (view.adapter as SendTransactionAdapter).updateData(it)
+        }
+    }
+}
+
+@BindingAdapter("receiveTransactionItems")
+fun setReceiveTransactionItems(view: RecyclerView, item: MutableList<ReceiveCoin>?) {
+    when (view.adapter) {
+        is ReceiveTransactionAdapter -> item?.let {
+            (view.adapter as ReceiveTransactionAdapter).updateData(it)
         }
     }
 }

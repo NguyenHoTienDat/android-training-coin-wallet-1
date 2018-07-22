@@ -12,6 +12,7 @@ object Constant {
     const val FIREBASE_USER_REF_KEY = "user"
     const val FIREBASE_TRANSACTION_REF_KEY = "transaction"
     const val FIREBASE_WALLET_REF_KEY = "wallet"
-
+    const val FIREBASE_RECEIVE_REF_KEY = "receive"
+    const val FIREBASE_SEND_REF_KEY = "send"
     const val FIREBASE_WALLET_COIN_KEY = "coin"
 }
