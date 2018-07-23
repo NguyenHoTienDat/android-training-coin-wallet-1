@@ -26,6 +26,8 @@ interface UserDataSource {
     fun getCryptoPrice(fsyms: String, tsyms: String): Observable<MutableList<BitCoin>>
     fun changePassWord(newPassWd: String): Single<String>
     fun reAuth(authCredential: AuthCredential): Single<Boolean>
+    fun getSendTransaction(idUser: String, walletId: String): Observable<List<SendCoin>>
+    fun getReceiveTransaction(idUser: String, walletId: String): Observable<List<ReceiveCoin>>
     interface local {
         fun saveUser(user: User)
         fun updateUser(user: User)
