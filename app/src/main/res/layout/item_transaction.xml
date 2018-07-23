@@ -6,7 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.framgia.bitcoinwallet.ui.screen.main.transactiontab.ReceiveTransactionViewModel" />
+            type="com.framgia.bitcoinwallet.ui.screen.main.transactiontab.ItemTransactionViewModel" />
+
+        <variable
+            name="receiverCoin"
+            type="com.framgia.bitcoinwallet.data.model.ReceiveCoin" />
 
         <import type="android.view.View" />
     </data>
@@ -16,63 +20,64 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image_receive_transaction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/image_transaction"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_8"
-            android:src="@drawable/ic_receive_purple"
-            app:layout_constraintBottom_toBottomOf="@+id/text_receive_transaction_timestamp"
+            android:elevation="@dimen/dp_8"
+            imageResource="@{ viewModel.transactionImageRes }"
+            app:layout_constraintBottom_toBottomOf="@+id/text_transaction_timestamp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_transaction_receive_btc" />
+            app:layout_constraintTop_toTopOf="@+id/text_transaction_btc" />
 
         <TextView
-            android:id="@+id/text_transaction_receive_btc"
+            android:id="@+id/text_transaction_btc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="BTC"
+            android:text="@string/btc_title"
             android:textColor="@android:color/black"
             android:textSize="@dimen/sp_16"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_transaction_receive_coin"
+            android:id="@+id/text_transaction_coin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
             android:layout_marginRight="@dimen/dp_4"
-            android:text='@{ "" +viewModel.receiveTransaction.amount}'
+            android:layout_marginTop="@dimen/dp_4"
+            android:text='@{ "" +viewModel.transaction.amount}'
             android:textColor="@android:color/black"
             android:textSize="@dimen/sp_16"
-            app:layout_constraintRight_toLeftOf="@+id/text_transaction_receive_btc"
+            app:layout_constraintRight_toLeftOf="@+id/text_transaction_btc"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="nguyen ho tien dattttttttttttttttttttttttgfiytfttf"
-            android:textSize="@dimen/sp_16"
-            android:maxLines="1"
-            android:layout_marginRight="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_8"
-            app:layout_constraintBottom_toBottomOf="@+id/image_receive_transaction"
-            app:layout_constraintLeft_toRightOf="@+id/image_receive_transaction"
-            app:layout_constraintTop_toTopOf="@+id/image_receive_transaction"
-            app:layout_constraintRight_toLeftOf="@+id/text_transaction_receive_coin" />
+            android:layout_marginRight="@dimen/dp_8"
+            android:maxLines="1"
+            android:text="@{ viewModel.user.fullName }"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="@+id/image_transaction"
+            app:layout_constraintLeft_toRightOf="@+id/image_transaction"
+            app:layout_constraintRight_toLeftOf="@+id/text_transaction_coin"
+            app:layout_constraintTop_toTopOf="@+id/image_transaction" />
 
         <TextView
-            android:id="@+id/text_receive_transaction_timestamp"
+            android:id="@+id/text_transaction_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_4"
-            android:text="@{ viewModel.getConvertTimeStamp()}"
+            android:text="@{ viewModel.transaction.timestamp }"
             android:textSize="@dimen/sp_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_transaction_receive_coin" />
+            app:layout_constraintTop_toBottomOf="@+id/text_transaction_coin" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>

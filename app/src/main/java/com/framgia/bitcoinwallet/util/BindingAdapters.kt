@@ -5,19 +5,13 @@ import android.graphics.Bitmap
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.widget.ImageView
-import android.widget.Spinner
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.framgia.bitcoinwallet.R
-import com.framgia.bitcoinwallet.data.model.BitCoin
-import com.framgia.bitcoinwallet.data.model.ReceiveCoin
-import com.framgia.bitcoinwallet.data.model.SendCoin
-import com.framgia.bitcoinwallet.data.model.Wallet
+import com.framgia.bitcoinwallet.data.model.*
 import com.framgia.bitcoinwallet.ui.screen.coinprice.CoinAdapter
-import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.ReceiveTransactionAdapter
-import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.SendTransactionAdapter
+import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.TransactionAdapter
 import com.framgia.bitcoinwallet.ui.screen.wallet.WalletAdapter
 
 /**
@@ -64,20 +58,11 @@ fun setItemDivider(view: RecyclerView, state: Boolean) {
     }
 }
 
-@BindingAdapter("sendTransactionItems")
-fun setSendTransactionItems(view: RecyclerView, item: MutableList<SendCoin>?) {
+@BindingAdapter("transactionItems")
+fun setTransactionItems(view: RecyclerView, transaction: MutableList<Transaction>?) {
     when (view.adapter) {
-        is SendTransactionAdapter -> item?.let {
-            (view.adapter as SendTransactionAdapter).updateData(it)
-        }
-    }
-}
-
-@BindingAdapter("receiveTransactionItems")
-fun setReceiveTransactionItems(view: RecyclerView, item: MutableList<ReceiveCoin>?) {
-    when (view.adapter) {
-        is ReceiveTransactionAdapter -> item?.let {
-            (view.adapter as ReceiveTransactionAdapter).updateData(it)
+        is TransactionAdapter -> transaction?.let {
+            (view.adapter as TransactionAdapter).updateData(it)
         }
     }
 }

@@ -6,11 +6,14 @@ import android.widget.Toast
 import com.framgia.bitcoinwallet.R
 import com.framgia.bitcoinwallet.data.model.ReceiveCoin
 import com.framgia.bitcoinwallet.data.model.SendCoin
+import com.framgia.bitcoinwallet.data.model.Transaction
 import com.framgia.bitcoinwallet.databinding.FragmentTransactionBinding
 import com.framgia.bitcoinwallet.ui.BaseFragment
 import com.framgia.bitcoinwallet.ui.BaseRecyclerViewHolder
 import com.framgia.bitcoinwallet.ui.screen.main.MainActivity
 import com.framgia.bitcoinwallet.ui.screen.main.MainViewModel
+import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.TransactionAdapter.Companion.TRANSACTION_RECEIVE_TYPE
+import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.TransactionAdapter.Companion.TRANSACTION_SEND_TYPE
 import com.framgia.bitcoinwallet.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_transaction.*
 
@@ -34,17 +37,17 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>() {
         mainViewModel = (activity as MainActivity).obtainViewModel(MainViewModel::class.java)
 
         recycler_send_transaction.adapter =
-                SendTransactionAdapter(mutableListOf(),
-                        object : BaseRecyclerViewHolder.OnItemClickListener<SendCoin> {
-                            override fun onItemClick(position: Int, data: SendCoin) {
+                TransactionAdapter(mutableListOf(), TRANSACTION_SEND_TYPE,
+                        object : BaseRecyclerViewHolder.OnItemClickListener<Transaction> {
+                            override fun onItemClick(position: Int, data: Transaction) {
 
                             }
 
                         })
         recycler_receive_transaction.adapter =
-                ReceiveTransactionAdapter(mutableListOf(),
-                        object : BaseRecyclerViewHolder.OnItemClickListener<ReceiveCoin> {
-                            override fun onItemClick(position: Int, data: ReceiveCoin) {
+                TransactionAdapter(mutableListOf(), TRANSACTION_RECEIVE_TYPE,
+                        object : BaseRecyclerViewHolder.OnItemClickListener<Transaction> {
+                            override fun onItemClick(position: Int, data: Transaction) {
 
                             }
 
@@ -74,10 +77,10 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>() {
 
     override fun setEvents(view: View) {
         text_received_title.setOnClickListener {
-            viewDataBinding.viewModel?.isSendTransactionShowed?.value = false
+            viewDataBinding.viewModel?.showReceiveTransaction()
         }
         text_sended_title.setOnClickListener {
-            viewDataBinding.viewModel?.isSendTransactionShowed?.value = true
+            viewDataBinding.viewModel?.showSendTransaction()
         }
     }
 

@@ -7,7 +7,6 @@ import com.framgia.bitcoinwallet.data.source.local.UserLocalDatasource
 import com.framgia.bitcoinwallet.data.source.remote.UserRemoteDatasource
 import com.framgia.bitcoinwallet.data.source.repository.BitCoinRepository
 import com.framgia.bitcoinwallet.data.source.repository.UserRepository
-import com.framgia.bitcoinwallet.ui.screen.changepassws.ChangePassWdActivity
 import com.framgia.bitcoinwallet.ui.screen.changepassws.ChangePassWdViewModel
 import com.framgia.bitcoinwallet.ui.screen.coinprice.CoinPriceViewModel
 import com.framgia.bitcoinwallet.ui.screen.detailswallet.DetailsWalletViewModel

@@ -409,8 +409,8 @@ class UserRemoteDatasource : UserDataSource {
         }
     }
 
-    override fun getSendTransaction(idUser: String, idWallet: String): Observable<List<SendCoin>> {
-        return Observable.create<List<SendCoin>> { emitter ->
+    override fun getSendTransaction(idUser: String, idWallet: String): Observable<List<Transaction>> {
+        return Observable.create<List<Transaction>> { emitter ->
             var transactionRef = mFireDatabase.getReference(
                     "${Constant.FIREBASE_USER_REF_KEY}/$idUser" +
                             "/${Constant.FIREBASE_WALLET_REF_KEY}/$idWallet" +
@@ -424,9 +424,9 @@ class UserRemoteDatasource : UserDataSource {
                         override fun onDataChange(sendSnap: DataSnapshot) {
                             when (sendSnap.hasChildren()) {
                                 true -> {
-                                    var sendCoins = mutableListOf<SendCoin>()
+                                    var sendCoins = mutableListOf<Transaction>()
                                     for (sendItem: DataSnapshot in sendSnap.children) {
-                                        sendItem.getValue(SendCoin::class.java)?.let {
+                                        sendItem.getValue(Transaction::class.java)?.let {
                                             sendCoins.add(it)
                                         }
                                     }
@@ -441,8 +441,8 @@ class UserRemoteDatasource : UserDataSource {
         }
     }
 
-    override fun getReceiveTransaction(idUser: String, idWallet: String): Observable<List<ReceiveCoin>> {
-        return Observable.create<List<ReceiveCoin>> { emitter ->
+    override fun getReceiveTransaction(idUser: String, idWallet: String): Observable<List<Transaction>> {
+        return Observable.create<List<Transaction>> { emitter ->
             var transactionRef = mFireDatabase.getReference(
                     "${Constant.FIREBASE_USER_REF_KEY}/$idUser" +
                             "/${Constant.FIREBASE_WALLET_REF_KEY}/$idWallet" +
@@ -456,20 +456,47 @@ class UserRemoteDatasource : UserDataSource {
                         override fun onDataChange(receiveSnap: DataSnapshot) {
                             when (receiveSnap.hasChildren()) {
                                 true -> {
-                                    var receiveCoins = mutableListOf<ReceiveCoin>()
+                                    var receiveCoins = mutableListOf<Transaction>()
                                     for (receiveItem: DataSnapshot in receiveSnap.children) {
-                                        receiveItem.getValue(ReceiveCoin::class.java)?.let {
+                                        receiveItem.getValue(Transaction::class.java)?.let {
                                             receiveCoins.add(it)
                                         }
                                     }
                                     emitter.onNext(receiveCoins)
                                 }
                                 else -> {
-                                    emitter.onNext( mutableListOf())
+                                    emitter.onNext(mutableListOf())
                                 }
                             }
                         }
                     })
+        }
+    }
+
+    override fun findUserWithWalletAddress(walletId: String): Single<User> {
+        return Single.create<User> { emitter ->
+            var userRef = mFireDatabase.getReference(Constant.FIREBASE_USER_REF_KEY)
+            userRef.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    emitter.onError(error.toException())
+                }
+
+                override fun onDataChange(userSnap: DataSnapshot) {
+                    if (userSnap.hasChildren()) {
+                        for (userItem: DataSnapshot in userSnap.children) {
+                            for (walletItem: DataSnapshot in userItem.child(Constant.FIREBASE_WALLET_REF_KEY).children) {
+                                walletItem.getValue(Wallet::class.java)?.let {
+                                    if (walletItem.key == walletId) {
+                                        emitter.onSuccess(userItem.getValue(User::class.java)!!)
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            })
         }
     }
 }

@@ -86,4 +86,5 @@
     <string name="activity_title">Activity</string>
     <string name="received_title">Received</string>
     <string name="sended_title">Sended</string>
+    <string name="btc_title">BTC</string>
 </resources>

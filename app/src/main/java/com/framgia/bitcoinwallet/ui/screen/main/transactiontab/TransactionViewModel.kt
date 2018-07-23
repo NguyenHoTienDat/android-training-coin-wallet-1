@@ -2,10 +2,13 @@ package com.framgia.bitcoinwallet.ui.screen.main.transactiontab
 
 import android.app.Application
 import android.arch.lifecycle.*
+import android.databinding.ObservableField
 import android.util.Log
 import com.framgia.bitcoinwallet.R
 import com.framgia.bitcoinwallet.data.model.ReceiveCoin
 import com.framgia.bitcoinwallet.data.model.SendCoin
+import com.framgia.bitcoinwallet.data.model.Transaction
+import com.framgia.bitcoinwallet.data.model.User
 import com.framgia.bitcoinwallet.data.source.repository.UserRepository
 import com.framgia.bitcoinwallet.ui.screen.main.sendcointab.SendCoinViewModel
 import com.framgia.bitcoinwallet.util.SharedPreUtils
@@ -20,12 +23,17 @@ class TransactionViewModel(private val context: Application,
 
     val isLoadingData: MutableLiveData<Boolean> = MutableLiveData()
     val isSendTransactionShowed: MutableLiveData<Boolean> = MutableLiveData()
-    val sendTransaction: MutableLiveData<List<SendCoin>> = MutableLiveData()
-    val receiveTransaction: MutableLiveData<List<ReceiveCoin>> = MutableLiveData()
+    val isShowNoSendTransactionTitle: MutableLiveData<Boolean> = MutableLiveData()
+    val isShowNoReceiveTransactionTitle: MutableLiveData<Boolean> = MutableLiveData()
+    val sendTransaction: MutableLiveData<List<Transaction>> = MutableLiveData()
+    val receiveTransaction: MutableLiveData<List<Transaction>> = MutableLiveData()
 
     //Don't get balance at this frg, because it is loaded in sendcoin frg and save in MainViewModel
     //So we only obsever that var in MainViewModel
     val curentBalance: MutableLiveData<String> = MutableLiveData()
+
+    var isHasSendTransaction: Boolean = false
+    var isHasReceiveTransaction: Boolean = false
 
     init {
         isLoadingData.value = true
@@ -38,6 +46,28 @@ class TransactionViewModel(private val context: Application,
         getReceiveTransaction()
     }
 
+    fun showSendTransaction() {
+        isSendTransactionShowed.value = true
+        if (isHasSendTransaction) {
+            isShowNoSendTransactionTitle.value = false
+            isShowNoReceiveTransactionTitle.value = false
+        } else {
+            isShowNoSendTransactionTitle.value = true
+            isShowNoReceiveTransactionTitle.value = false
+        }
+    }
+
+    fun showReceiveTransaction() {
+        isSendTransactionShowed.value = false
+        if (isHasReceiveTransaction) {
+            isShowNoSendTransactionTitle.value = false
+            isShowNoReceiveTransactionTitle.value = false
+        } else {
+            isShowNoSendTransactionTitle.value = false
+            isShowNoReceiveTransactionTitle.value = true
+        }
+    }
+
     private fun getSendTransaction() {
         userRepository.getSendTransaction(SharedPreUtils.getUserId(context)
                 , SharedPreUtils.getCurrentWalletAddress(context)).subscribe(
@@ -46,10 +76,11 @@ class TransactionViewModel(private val context: Application,
                         Log.d(TAG, it.toString())
                         when (it.size) {
                             0 -> {
+                               isShowNoSendTransactionTitle.value = true
                             }
                             else -> {
                                 sendTransaction.value = it
-                                Log.d(TAG,"send "+it.toString())
+                                isHasSendTransaction = true
                             }
                         }
                     }
@@ -57,6 +88,7 @@ class TransactionViewModel(private val context: Application,
                 },
                 {
                     Log.e(TAG, it.toString())
+                    isLoadingData.value = false
                 }
         )
     }
@@ -71,11 +103,11 @@ class TransactionViewModel(private val context: Application,
                             }
                             else -> {
                                 receiveTransaction.value = it
-                                Log.d(TAG,"receive "+it.toString())
+                                isHasReceiveTransaction = true
                             }
                         }
                     }
-                    isLoadingData.value = false
+
                 },
                 {
                     Log.e(TAG, it.toString())

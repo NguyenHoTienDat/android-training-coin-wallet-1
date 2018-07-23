@@ -76,6 +76,7 @@
             android:text="@{ viewModel.curentBalance }"
             android:textColor="@color/color_deep_purple_50_700"
             android:textSize="@dimen/sp_35"
+            android:elevation="@dimen/dp_25"
             android:textStyle="bold"
             android:visibility="@{viewModel.isLoadingData() ?View.GONE :View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/view_top"
@@ -163,7 +164,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_div"
-                app:sendTransactionItems="@{ viewModel.sendTransaction }" />
+                app:transactionItems="@{ viewModel.sendTransaction }" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_receive_transaction"
@@ -177,7 +178,34 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_div"
-                app:receiveTransactionItems="@{ viewModel.receiveTransaction }" />
+                app:transactionItems="@{ viewModel.receiveTransaction }" />
+
+            <TextView
+                android:id="@+id/text_no_send_transaction"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center"
+                android:text="Khong co send"
+                android:visibility="@{ viewModel.isShowNoSendTransactionTitle() ?View.VISIBLE :View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_div" />
+
+            <TextView
+                android:id="@+id/text_no_receiver_transaction"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center"
+                android:text="Khong co RECEIVE"
+                android:visibility="@{ viewModel.isShowNoReceiveTransactionTitle() ?View.VISIBLE :View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_div" />
+
         </android.support.constraint.ConstraintLayout>
 
         <ProgressBar
