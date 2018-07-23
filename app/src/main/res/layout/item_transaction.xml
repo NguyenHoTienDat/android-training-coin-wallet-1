@@ -21,12 +21,12 @@
 
         <ImageView
             android:id="@+id/image_transaction"
+            imageResource="@{ viewModel.transactionImageRes }"
             android:layout_width="@dimen/dp_25"
             android:layout_height="@dimen/dp_25"
             android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_8"
             android:elevation="@dimen/dp_8"
-            imageResource="@{ viewModel.transactionImageRes }"
             app:layout_constraintBottom_toBottomOf="@+id/text_transaction_timestamp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_transaction_btc" />
@@ -72,12 +72,74 @@
             android:id="@+id/text_transaction_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_4"
             android:text="@{ viewModel.transaction.timestamp }"
             android:textSize="@dimen/sp_12"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_transaction_coin" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/view_div_item_transac"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:background="@color/color_gray_50_300"
+            android:padding="@dimen/dp_15"
+            android:visibility="@{ viewModel.showDetails ?View.VISIBLE :View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_transaction_timestamp">
+
+            <ImageView
+                android:id="@+id/image_detail_transac_qr"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:src="@drawable/ic_qr_code_purple"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:maxLines="1"
+                android:text="@{ viewModel.transaction.interactAddress }"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintBottom_toBottomOf="@+id/image_detail_transac_qr"
+                app:layout_constraintLeft_toRightOf="@+id/image_detail_transac_qr"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_detail_transac_qr" />
+
+            <ImageView
+                android:id="@+id/image_detail_transac_note"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_8"
+                android:src="@drawable/ic_note"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_detail_transac_qr" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:maxLines="1"
+                android:text="@{ viewModel.transaction.note }"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintBottom_toBottomOf="@+id/image_detail_transac_note"
+                app:layout_constraintLeft_toRightOf="@+id/image_detail_transac_note"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_detail_transac_note" />
+
+            <ImageView
+                android:id="@+id/image_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
 </layout>

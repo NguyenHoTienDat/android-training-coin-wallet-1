@@ -87,4 +87,7 @@
     <string name="received_title">Received</string>
     <string name="sended_title">Sended</string>
     <string name="btc_title">BTC</string>
+    <string name="no_send_transac_title">No Send Transaction</string>
+    <string name="no_receive_transac_title">No Receive Transaction</string>
+    <string name="copy_qr_successed_title">QrCode is copied!</string>D
 </resources>

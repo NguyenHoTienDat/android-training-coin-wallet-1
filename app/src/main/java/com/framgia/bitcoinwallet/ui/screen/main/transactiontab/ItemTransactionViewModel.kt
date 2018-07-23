@@ -17,6 +17,8 @@ class ItemTransactionViewModel(item: Transaction, transactionType: Int) {
     val transaction: MutableLiveData<Transaction> = MutableLiveData()
     val user: ObservableField<User> = ObservableField()
     val transactionImageRes: ObservableField<Int> = ObservableField()
+    val isShowDetails: ObservableField<Boolean> = ObservableField()
+    val isLoadDetails: ObservableField<Boolean> = ObservableField()
     lateinit var userRepository: UserRepository
 
     init {
@@ -46,5 +48,11 @@ class ItemTransactionViewModel(item: Transaction, transactionType: Int) {
                     }
             )
         }
+    }
+
+    fun showDetails() {
+       if (isShowDetails.get() == true) {
+           isShowDetails.set(false)
+       } else isShowDetails.set(true)
     }
 }

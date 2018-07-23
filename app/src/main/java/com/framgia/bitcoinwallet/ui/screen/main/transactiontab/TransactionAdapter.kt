@@ -37,8 +37,9 @@ class TransactionAdapter(var transaction: MutableList<Transaction>, val transact
                 viewModel = ItemTransactionViewModel(item, transactionType)
                 executePendingBindings()
                 root.setOnClickListener {
-                    listener.onItemClick(adapterPosition, item)
+                    viewModel?.let { it.showDetails() }
                 }
+                imageCopy.setOnClickListener { listener.onItemClick(adapterPosition, item) }
             }
         }
 

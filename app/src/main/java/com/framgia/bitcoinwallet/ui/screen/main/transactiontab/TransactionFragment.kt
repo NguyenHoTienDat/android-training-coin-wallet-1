@@ -3,9 +3,7 @@ package com.framgia.bitcoinwallet.ui.screen.main.transactiontab
 import android.arch.lifecycle.Observer
 import android.view.View
 import android.widget.Toast
-import com.framgia.bitcoinwallet.R
-import com.framgia.bitcoinwallet.data.model.ReceiveCoin
-import com.framgia.bitcoinwallet.data.model.SendCoin
+
 import com.framgia.bitcoinwallet.data.model.Transaction
 import com.framgia.bitcoinwallet.databinding.FragmentTransactionBinding
 import com.framgia.bitcoinwallet.ui.BaseFragment
@@ -16,6 +14,10 @@ import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.TransactionAdapte
 import com.framgia.bitcoinwallet.ui.screen.main.transactiontab.TransactionAdapter.Companion.TRANSACTION_SEND_TYPE
 import com.framgia.bitcoinwallet.util.obtainViewModel
 import kotlinx.android.synthetic.main.fragment_transaction.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import com.framgia.bitcoinwallet.R
 
 class TransactionFragment : BaseFragment<FragmentTransactionBinding>() {
 
@@ -24,6 +26,7 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>() {
     companion object {
         fun newInstance() = TransactionFragment()
         private const val TAG = "TransactionFragment"
+        private const val CLIPBOARD_LABLE = "CLIPBOARD_LABLE"
     }
 
     override fun getLayoutRes() = R.layout.fragment_transaction
@@ -40,7 +43,7 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>() {
                 TransactionAdapter(mutableListOf(), TRANSACTION_SEND_TYPE,
                         object : BaseRecyclerViewHolder.OnItemClickListener<Transaction> {
                             override fun onItemClick(position: Int, data: Transaction) {
-
+                                copyQrCodeToClipBoar(data.interactAddress)
                             }
 
                         })
@@ -48,10 +51,18 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>() {
                 TransactionAdapter(mutableListOf(), TRANSACTION_RECEIVE_TYPE,
                         object : BaseRecyclerViewHolder.OnItemClickListener<Transaction> {
                             override fun onItemClick(position: Int, data: Transaction) {
-
+                                copyQrCodeToClipBoar(data.interactAddress)
                             }
 
                         })
+    }
+
+    private fun copyQrCodeToClipBoar(interactAddress: String) {
+        val clipboard = (activity as MainActivity).getSystemService(Context.CLIPBOARD_SERVICE)
+                as ClipboardManager
+        val clip = ClipData.newPlainText(CLIPBOARD_LABLE, interactAddress)
+        clipboard.primaryClip = clip
+        notifyMessage(resources.getString(R.string.copy_qr_successed_title))
     }
 
     override fun observeModelData(view: View) {
